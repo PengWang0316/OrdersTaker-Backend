@@ -1,7 +1,6 @@
 const usernamePasswordRouters = require('express').Router();
 // API_BASE_URL = "/resonancecode/api/v1/";
 const jwt = require('jsonwebtoken');
-const axios = require('axios');
 const bcrypt = require('bcrypt');
 const winston = require('winston');
 
