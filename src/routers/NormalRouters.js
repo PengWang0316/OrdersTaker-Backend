@@ -6,6 +6,7 @@ require('dotenv').config(); // Loading .env to process.env
 
 // Functions import
 const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
+const getFetchBasicInformation = require('./functions/GetFetchBasicInformation');
 
 // cloudinary.config({ // confige the cloudinary library.
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,5 +17,8 @@ const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
 
 /* Checking jwt token */
 normalRouter.get('/jwtMessageVerify', getJwtMessageVerify);
+
+/* Fetching the basic information */
+normalRouter.get('/fetchBasicInformation', getFetchBasicInformation);
 
 module.exports = normalRouter;

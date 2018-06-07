@@ -6,6 +6,7 @@ require('dotenv').config();
 // Loading .env to process.env
 const DB_URL = process.env.DB_HOST;
 const COLLECTION_USER = 'users';
+const COLLECTION_BASIC_INFORMATION = 'BasicInformation';
 
 const DB_NAME = process.env.DB_NAME;
 
@@ -84,6 +85,12 @@ const promiseReturnResult = callback => new Promise((resolve, reject) => {
 
 
 /* Start Database functions */
+
+exports.fetchBasicInformation = () => promiseNextResult(db =>
+  db.collection(COLLECTION_BASIC_INFORMATION).find({}));
+
+
+/* Old functions that come from the previous project */
 
 exports.findUserWithUsername = username =>
   promiseFindResult(db => db.collection(COLLECTION_USER)
