@@ -1,5 +1,4 @@
 const logger = require('../../utils/Logger');
-const verifyJWT = require('../../utils/VerifyJWT');
 const mongodb = require('../../MongoDB');
 
 module.exports = (req, res) =>
