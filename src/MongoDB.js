@@ -1,4 +1,5 @@
 const mongodb = require('mongodb');
+
 const MongoClient = mongodb.MongoClient;
 const winston = require('winston');
 
@@ -7,6 +8,7 @@ require('dotenv').config();
 const DB_URL = process.env.DB_HOST;
 const COLLECTION_USER = 'users';
 const COLLECTION_BASIC_INFORMATION = 'BasicInformation';
+const COLLECTION_MENUS = 'Menus';
 
 const DB_NAME = process.env.DB_NAME;
 
@@ -86,8 +88,13 @@ const promiseReturnResult = callback => new Promise((resolve, reject) => {
 
 /* Start Database functions */
 
+/* Fetch basic information */
 exports.fetchBasicInformation = () => promiseNextResult(db =>
   db.collection(COLLECTION_BASIC_INFORMATION).find({}));
+
+/* Fetch all menu information */
+exports.fetchAllMenu = () => promiseFindResult(db =>
+  db.collection(COLLECTION_MENUS).find({}));
 
 
 /* Old functions that come from the previous project */
