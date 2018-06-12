@@ -94,7 +94,7 @@ exports.fetchBasicInformation = () => promiseNextResult(db =>
 
 /* Fetch all menu information */
 exports.fetchAllMenu = () => promiseFindResult(db =>
-  db.collection(COLLECTION_MENUS).find({}, { projection: { 'items.feedbacks': 0 } }));
+  db.collection(COLLECTION_MENUS).find({}, { projection: { 'items.feedbacks': 0 } }).sort({ order: 1 }));
 
 
 /* Old functions that come from the previous project */
