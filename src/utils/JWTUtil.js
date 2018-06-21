@@ -22,7 +22,12 @@ const verifyJWT = ({ message, res }) => {
 */
 const signJWT = user => {
   const signInfo = { _id: user._id, role: user.role };
-  const returnUser = { ...user, jwt: jwt.sign(signInfo, process.env.JWT_SECERT) };
+  const returnUser = { // Do not need return all user's information.
+    ...signInfo,
+    username: user.username,
+    displayName: user.displayName,
+    jwt: jwt.sign(signInfo, process.env.JWT_SECERT)
+  };
   delete returnUser.password; // delete user.password;
   return returnUser;
 };
