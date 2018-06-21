@@ -1,7 +1,7 @@
 import getFetchBasicInformation from '../../src/routers/functions/GetFetchBasicInformation';
 
 jest.mock('../../src/utils/Logger', () => ({ error: jest.fn() }));
-jest.mock('../../src/utils/VerifyJWT', () => jest.fn().mockReturnValue({ _id: 'id' }));
+// jest.mock('../../src/utils/VerifyJWT', () => jest.fn().mockReturnValue({ _id: 'id' }));
 jest.mock('../../src/MongoDB', () => ({ fetchBasicInformation: jest.fn().mockReturnValue(Promise.resolve('result')) }));
 
 describe('GetFetchBasicInformation', () => {
