@@ -66,6 +66,6 @@ usernamePasswordRouters.get('/checkUsernameAvailable', (req, res) => {
   }).catch(err => logger.error('/checkUsernameAvailable', err));
 });
 
-usernamePasswordRouters.post('/registerNewUser', postRegisterNewUser);
+usernamePasswordRouters.post('/registerUser', postRegisterNewUser);
 
 module.exports = usernamePasswordRouters;
