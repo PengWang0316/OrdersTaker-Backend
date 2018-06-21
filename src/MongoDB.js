@@ -107,7 +107,10 @@ exports.findUserWithUsername = username =>
 
 exports.registerNewUser = user => new Promise((resolve, reject) => {
   connectToDb(db => db.collection(COLLECTION_USER)
-    .insertOne(user, (err, response) => resolve(response.ops[0])));
+    .insertOne(user, (err, response) => {
+      if (err) reject(err);
+      resolve(response.ops[0]);
+    }));
 });
 
 exports.fetchOrCreateUser = user => promiseReturnResult(db => {

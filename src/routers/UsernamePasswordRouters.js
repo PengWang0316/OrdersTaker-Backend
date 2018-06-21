@@ -8,6 +8,8 @@ const mongodb = require('../MongoDB');
 
 require('dotenv').config(); // Loading .env to process.env
 
+const postRegisterNewUser = require('./functions/PostRegisterNewUser');
+
 /** Setting up the Winston logger.
   * Under the development mode log to console.
 */
@@ -64,14 +66,6 @@ usernamePasswordRouters.get('/checkUsernameAvailable', (req, res) => {
   }).catch(err => logger.error('/checkUsernameAvailable', err));
 });
 
-usernamePasswordRouters.post('/registerNewUser', (req, res) => {
-  bcrypt.hash(req.body.password, process.env.SALT_ROUNDS * 1).then(hash => {
-    mongodb.registerNewUser({
-      username: req.body.username, password: hash, role: 3, createDate: new Date(), displayName: req.body.username, facebookId: '', googleId: ''
-    }).then(result => {
-      res.json(signJWT(result));
-    }).catch(err => logger.error('/registerNewUser', err));
-  }).catch(err => logger.error('/registerNewUser', err));
-});
+usernamePasswordRouters.post('/registerNewUser', postRegisterNewUser);
 
 module.exports = usernamePasswordRouters;
