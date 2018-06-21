@@ -32,13 +32,15 @@ describe('JWTUtil', () => {
 
   test('signJWT', () => {
     const jwt = require('jsonwebtoken');
-    const user = { _id: 'id', role: 'role', password: 'password', other: 'other' };
+    const user = {
+      _id: 'id', role: 'role', password: 'password', other: 'other', username: 'username'
+    };
     const returnUser = signJWT(user);
     expect(jwt.sign).toHaveBeenCalledTimes(1);
     expect(jwt.sign).toHaveBeenLastCalledWith({ _id: 'id', role: 'role' }, 'secert');
     expect(returnUser.password).toBeUndefined();
     expect(returnUser).toEqual({
-      _id: 'id', role: 'role', other: 'other', jwt: 'jwt'
+      _id: 'id', role: 'role', jwt: 'jwt', username: 'username', displayName: 'username'
     });
   });
 });
