@@ -9,6 +9,7 @@ const mongodb = require('../MongoDB');
 require('dotenv').config(); // Loading .env to process.env
 
 const postRegisterNewUser = require('./functions/PostRegisterNewUser');
+const getCheckUsernameAvailable = require('./functions/GetCheckUsernameAvailable');
 
 /** Setting up the Winston logger.
   * Under the development mode log to console.
@@ -57,14 +58,7 @@ usernamePasswordRouters.get('/usernamePasswordLogin', (req, res) => {
   });
 });
 
-usernamePasswordRouters.get('/checkUsernameAvailable', (req, res) => {
-  mongodb.findUserWithUsername(req.query.username).then(result => {
-    if (result.length === 0) res.json({
-      isAuth: false, isUsernameAvailable: true, isChecked: true
-    });
-    else res.json({ isAuth: false, isUsernameAvailable: false, isChecked: true });
-  }).catch(err => logger.error('/checkUsernameAvailable', err));
-});
+usernamePasswordRouters.get('/checkUsernameAvailable', getCheckUsernameAvailable);
 
 usernamePasswordRouters.post('/registerUser', postRegisterNewUser);
 
