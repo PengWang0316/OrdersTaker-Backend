@@ -26,6 +26,7 @@ const signJWT = user => {
     ...signInfo,
     username: user.username,
     displayName: user.username,
+    avatar: user.avatar,
     jwt: jwt.sign(signInfo, process.env.JWT_SECERT)
   };
   delete returnUser.password; // delete user.password;
