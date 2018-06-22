@@ -27,7 +27,7 @@ describe('PostRegisterNewUser', () => {
     expect(bcrypt.hash).toHaveBeenLastCalledWith('password', 10);
     expect(mongodb.registerNewUser).toHaveBeenCalledTimes(1);
     expect(mongodb.registerNewUser).toHaveBeenLastCalledWith({
-      username: 'username', password: 'hashedPassword', role: 3, createDate: new Date(), displayName: 'username', email: 'email', facebookId: '', googleId: ''
+      username: 'username', password: 'hashedPassword', role: 3, createDate: new Date(), displayName: 'username', email: 'email', facebookId: '', googleId: '', avatar: null
     });
     expect(JWTUtil.signJWT).toHaveBeenCalledTimes(1);
     expect(JWTUtil.signJWT).toHaveBeenLastCalledWith('registerNewUser');
@@ -53,7 +53,7 @@ describe('PostRegisterNewUser', () => {
     expect(bcrypt.hash).toHaveBeenLastCalledWith('password', 10);
     expect(mongodb.registerNewUser).toHaveBeenCalledTimes(2);
     expect(mongodb.registerNewUser).toHaveBeenLastCalledWith({
-      username: 'username', password: 'hashedPassword', role: 3, createDate: new Date(), displayName: 'username', email: 'email', facebookId: '', googleId: ''
+      username: 'username', password: 'hashedPassword', role: 3, createDate: new Date(), displayName: 'username', email: 'email', facebookId: '', googleId: '', avatar: null
     });
     expect(JWTUtil.signJWT).toHaveBeenCalledTimes(1);
     expect(JWTUtil.signJWT).toHaveBeenLastCalledWith('registerNewUser');
