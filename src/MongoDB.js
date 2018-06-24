@@ -146,3 +146,13 @@ exports.createNewUser = (user, callback) => {
       .insert(insertUser, (err, result) => { callback(result.ops[0]); });
   });
 };
+
+/* Fetching one user based on its id */
+exports.fetchOneUser = id => new Promise((reslove, reject) =>
+  connectToDb(db => db.collection(COLLECTION_USER)
+    .findOne({ _id: new mongodb.ObjectId(id) }, {
+      _id: 1, username: 1, role: 1, password: 1 // Return the password to allow bcrybt checking. It has to be deleted before return a user object to the user's browser.
+    }).then((result, err) => {
+      if (err) reject(err);
+      reslove(result);
+    })));
