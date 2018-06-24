@@ -2,7 +2,7 @@ import getJwtMessageVerify from '../../src/routers/functions/GetJwtMessageVerify
 
 jest.mock('../../src/utils/Logger', () => ({ error: jest.fn() }));
 jest.mock('../../src/utils/JWTUtil', () => ({ verifyJWT: jest.fn().mockReturnValue({ _id: 'id' }) }));
-jest.mock('../../src/MongoDB', () => ({ fetchOneUser: jest.fn().mockReturnValue(new Promise((resolve, reject) => resolve({ a: 1, b: 2 }))) }));
+jest.mock('../../src/MongoDB', () => ({ fetchOneUser: jest.fn().mockReturnValue(new Promise((resolve, reject) => resolve({ a: 1, b: 2, password: 'password' }))) }));
 
 describe('GetJwtMessageVerify', () => {
   test('JwtMessageVerify without error', async () => {
@@ -16,7 +16,7 @@ describe('GetJwtMessageVerify', () => {
     expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith({ message: 'jwtMessage', res });
     expect(fetchOneUser).toHaveBeenCalledTimes(1);
     expect(fetchOneUser).toHaveBeenLastCalledWith('id');
-    expect(mockJsonFn).toHaveBeenLastCalledWith({ a: 1, b: 2, isAuth: true });
+    expect(mockJsonFn).toHaveBeenLastCalledWith({ a: 1, b: 2 });
   });
 
   test('JwtMessageVerify with error', async () => {
