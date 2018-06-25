@@ -78,7 +78,7 @@ facebookAuthRouters.get(
     mongodb.fetchOrCreateUser(req.user).then(result => {
       // Successful authentication, redirect home.
       const jwtMessage = jwt.sign(
-        Object.assign({ isAuth: true, role: result.value.role || 3 }, result.value),
+        Object.assign({ role: result.value.role || 3 }, result.value),
         process.env.JWT_SECERT
       );
       // console.log(result.value);
