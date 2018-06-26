@@ -8,5 +8,6 @@ module.exports = (req, res) =>
     .then(result => {
       const returnUser = { ...result };
       delete returnUser.password; // Remove password before return.
+      if (!returnUser.role) returnUser.role = 3; // If the user does not have any role, give a 3 for the default role.
       res.json(returnUser);
     }).catch(err => logger.error('/jwtMessageVerify', err));
