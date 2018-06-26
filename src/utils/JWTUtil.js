@@ -21,7 +21,7 @@ const verifyJWT = ({ message, res }) => {
  * @return {object} Return an user object that includes a user objcet without password and a JWT.
 */
 const signJWT = user => {
-  const signInfo = { _id: user._id, role: user.role };
+  const signInfo = { _id: user._id, role: user.role || 3 };
   const returnUser = { // Do not need return all user's information.
     ...signInfo,
     username: user.username,

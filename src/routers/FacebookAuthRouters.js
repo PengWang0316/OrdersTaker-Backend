@@ -3,32 +3,33 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
 const jwt = require('jsonwebtoken');
 const mongodb = require('../MongoDB');
-const winston = require('winston');
+// const winston = require('winston');
 
 require('dotenv').config(); // Loading .env to process.env
 
-
+const logger = require('../utils/Logger');
+const JWTUtil = require('../utils/JWTUtil');
 /** Setting up the Winston logger.
   * Under the development mode log to console.
 */
-const logger = new winston.Logger({
-  level: process.env.LOGGING_LEVEL,
-  transports: [
-    new (winston.transports.Console)()
-  ]
-});
+// const logger = new winston.Logger({
+//   level: process.env.LOGGING_LEVEL,
+//   transports: [
+//     new (winston.transports.Console)()
+//   ]
+// });
 
 /** Replaces the previous transports with those in the
 new configuration wholesale.
   * When under the production mode, log to a file.
 */
-if (process.env.NODE_ENV === 'production')
-  logger.configure({
-    level: 'error',
-    transports: [
-      new (winston.transports.File)({ filename: 'error.log' })
-    ]
-  });
+// if (process.env.NODE_ENV === 'production')
+//   logger.configure({
+//     level: 'error',
+//     transports: [
+//       new (winston.transports.File)({ filename: 'error.log' })
+//     ]
+//   });
 
 
 /* Setting up Facebook authentication strategy */
@@ -49,7 +50,7 @@ passport.use(new FacebookStrategy(
       facebookId: profile.id,
       googleId: '',
       displayName: profile.displayName,
-      photo: `https://graph.facebook.com/${profile.id}/picture?height=20&width=20`
+      avatar: `https://graph.facebook.com/${profile.id}/picture?height=20&width=20`
     };
     return cb(null, user);
   })
@@ -75,16 +76,9 @@ facebookAuthRouters.get(
   passport.authenticate('facebook', { failureRedirect: process.env.FACEBOOK_FAILURE_REDIRECT }),
   (req, res) => {
     // Fetch or create a user from database.
-    mongodb.fetchOrCreateUser(req.user).then(result => {
-      // Successful authentication, redirect home.
-      const jwtMessage = jwt.sign(
-        Object.assign({ role: result.value.role || 3 }, result.value),
-        process.env.JWT_SECERT
-      );
-      // console.log(result.value);
-      // console.log(process.env.REACT_LOGIN_CALLBACK_RUL);
-      res.redirect(`${process.env.REACT_LOGIN_CALLBACK_RUL}?jwt=${jwtMessage}`);
-    }).catch(err => logger.error('facebookAuthRouters => /facebook/callback', err));
+    mongodb.fetchOrCreateUser(req.user).then(({ value }) => 
+      res.redirect(`${process.env.REACT_LOGIN_CALLBACK_RUL}?jwt=${JWTUtil.signJWT(value).jwt}`))
+      .catch(err => logger.error('facebookAuthRouters => /facebook/callback', err));
   }
 );
 

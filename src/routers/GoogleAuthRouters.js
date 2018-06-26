@@ -1,8 +1,8 @@
 const googleAuthRouter = require('express')();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const jwt = require('jsonwebtoken');
-const winston = require('winston');
+// const jwt = require('jsonwebtoken');
+// const winston = require('winston');
 
 const mongodb = require('../MongoDB');
 
@@ -11,24 +11,26 @@ require('dotenv').config(); // Loading .env to process.env
 /** Setting up the Winston logger.
   * Under the development mode log to console.
 */
-const logger = new winston.Logger({
-  level: process.env.LOGGING_LEVEL,
-  transports: [
-    new (winston.transports.Console)()
-  ]
-});
+const logger = require('../utils/Logger');
+const JWTUtil = require('../utils/JWTUtil');
+// const logger = new winston.Logger({
+//   level: process.env.LOGGING_LEVEL,
+//   transports: [
+//     new (winston.transports.Console)()
+//   ]
+// });
 
 /** Replaces the previous transports with those in the
 new configuration wholesale.
   * When under the production mode, log to a file.
 */
-if (process.env.NODE_ENV === 'production')
-  logger.configure({
-    level: 'error',
-    transports: [
-      new (winston.transports.File)({ filename: 'error.log' })
-    ]
-  });
+// if (process.env.NODE_ENV === 'production')
+//   logger.configure({
+//     level: 'error',
+//     transports: [
+//       new (winston.transports.File)({ filename: 'error.log' })
+//     ]
+//   });
 
 googleAuthRouter.use(passport.initialize());
 // googleAuthRouter.use(passport.session());
@@ -44,7 +46,7 @@ passport.use(new GoogleStrategy(
       googleId: profile.id,
       facebookId: '',
       displayName: profile.displayName,
-      photo: profile.photos[0] ? profile.photos[0].value : '',
+      avatar: profile.photos[0] ? profile.photos[0].value : '',
       email: profile.emails[0] ? profile.emails[0].value : ''
     };
     if (!user.displayName) user.displayName = profile.emails[0] ? profile.emails[0].value : 'Google User'; // Check whether the user has a display name. If not, try to use the email address as the display name.
@@ -77,17 +79,9 @@ googleAuthRouter.get(
   passport.authenticate('google', { failureRedirect: process.env.GOOGLE_FAILURE_REDIRECT }),
   (req, res) => {
     // Fetch or create a user from database.
-    mongodb.fetchOrCreateUser(req.user).then(result => {
-      // console.log('result: ', result);
-      // Successful authentication, redirect home.
-      const jwtMessage = jwt.sign(
-        Object.assign({ isAuth: true, role: result.value.role || 3 }, result.value),
-        process.env.JWT_SECERT
-      );
-      // console.log(result.value);
-      // console.log(jwtMessage);
-      res.redirect(`${process.env.REACT_LOGIN_CALLBACK_RUL}?jwt=${jwtMessage}`);
-    }).catch(err => logger.error('GoogleAuthRouters => /google/callback', err));
+    mongodb.fetchOrCreateUser(req.user).then(({ value }) =>
+      res.redirect(`${process.env.REACT_LOGIN_CALLBACK_RUL}?jwt=${JWTUtil.signJWT(value).jwt}`))
+      .catch(err => logger.error('GoogleAuthRouters => /google/callback', err));
   }
 );
 

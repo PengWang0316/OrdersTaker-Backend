@@ -151,7 +151,7 @@ exports.createNewUser = (user, callback) => {
 exports.fetchOneUser = id => new Promise((reslove, reject) =>
   connectToDb(db => db.collection(COLLECTION_USER)
     .findOne({ _id: new mongodb.ObjectId(id) }, {
-      fields: { _id: 1, username: 1, role: 1, password: 1, displayName: 1 } // Return the password to allow bcrybt checking. It has to be deleted before return a user object to the user's browser.
+      fields: { _id: 1, username: 1, role: 1, password: 1, displayName: 1, avatar: 1 } // Return the password to allow bcrybt checking. It has to be deleted before return a user object to the user's browser.
     }).then((result, err) => {
       if (err) reject(err);
       reslove(result);
