@@ -16,7 +16,9 @@ describe('GetJwtMessageVerify', () => {
     expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith({ message: 'jwtMessage', res });
     expect(fetchOneUser).toHaveBeenCalledTimes(1);
     expect(fetchOneUser).toHaveBeenLastCalledWith('id');
-    expect(mockJsonFn).toHaveBeenLastCalledWith({ a: 1, b: 2, role: 3 });
+    expect(mockJsonFn).toHaveBeenLastCalledWith({
+      a: 1, b: 2, role: 3, jwt: 'jwtMessage'
+    });
   });
 
   test('JwtMessageVerify without error has role', async () => {
@@ -26,12 +28,14 @@ describe('GetJwtMessageVerify', () => {
 
     const JWTUtil = require('../../src/utils/JWTUtil');
     const { fetchOneUser } = require('../../src/MongoDB');
-    fetchOneUser.mockReturnValue(Promise.resolve({ a: 1, b: 2, password: 'password', role: 1 }));
+    fetchOneUser.mockReturnValue(Promise.resolve({
+      a: 1, b: 2, password: 'password', role: 1
+    }));
     await getJwtMessageVerify(req, res);
     expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith({ message: 'jwtMessage', res });
     expect(fetchOneUser).toHaveBeenCalledTimes(2);
     expect(fetchOneUser).toHaveBeenLastCalledWith('id');
-    expect(mockJsonFn).toHaveBeenLastCalledWith({ a: 1, b: 2, role: 1 });
+    expect(mockJsonFn).toHaveBeenLastCalledWith({ a: 1, b: 2, role: 1, jwt: 'jwtMessage' });
   });
 
   test('JwtMessageVerify with error', async () => {
