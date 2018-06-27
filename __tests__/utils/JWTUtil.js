@@ -43,4 +43,18 @@ describe('JWTUtil', () => {
       _id: 'id', role: 'role', jwt: 'jwt', username: 'username', displayName: 'username', avatar: 'avatar'
     });
   });
+
+  test('signJWT without role', () => {
+    const jwt = require('jsonwebtoken');
+    const user = {
+      _id: 'id', password: 'password', other: 'other', username: 'username', avatar: 'avatar'
+    };
+    const returnUser = signJWT(user);
+    expect(jwt.sign).toHaveBeenCalledTimes(2);
+    expect(jwt.sign).toHaveBeenLastCalledWith({ _id: 'id', role: 3 }, 'secert');
+    expect(returnUser.password).toBeUndefined();
+    expect(returnUser).toEqual({
+      _id: 'id', role: 3, jwt: 'jwt', username: 'username', displayName: 'username', avatar: 'avatar'
+    });
+  });
 });
