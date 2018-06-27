@@ -17,7 +17,7 @@ describe('GetLoginWithPassword', () => {
     expect(mongodb.findUserWithUsername).toHaveBeenCalledTimes(1);
     expect(mongodb.findUserWithUsername).toHaveBeenLastCalledWith(req.query.username);
     expect(mockJsonFn).toHaveBeenCalledTimes(1);
-    expect(mockJsonFn).toHaveBeenLastCalledWith(null);
+    expect(mockJsonFn).toHaveBeenLastCalledWith({});
     expect(bcrypt.compare).not.toHaveBeenCalled();
     expect(JWTUtil.signJWT).not.toHaveBeenCalled();
   });
@@ -56,7 +56,7 @@ describe('GetLoginWithPassword', () => {
     expect(mongodb.findUserWithUsername).toHaveBeenCalledTimes(3);
     expect(mongodb.findUserWithUsername).toHaveBeenLastCalledWith(req.query.username);
     expect(mockJsonFn).toHaveBeenCalledTimes(1);
-    expect(mockJsonFn).toHaveBeenLastCalledWith(null);
+    expect(mockJsonFn).toHaveBeenLastCalledWith({});
     expect(bcrypt.compare).toHaveBeenCalledTimes(2);
     expect(bcrypt.compare).toHaveBeenLastCalledWith(req.query.password, 'password');
     expect(JWTUtil.signJWT).toHaveBeenCalledTimes(1);

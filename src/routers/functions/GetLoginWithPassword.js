@@ -5,12 +5,12 @@ const bcrypt = require('bcrypt');
 
 module.exports = (req, res) =>
   mongodb.findUserWithUsername(req.query.username).then(result => {
-    if (result.length === 0) res.json(null);
+    if (result.length === 0) res.json({});
     else {
       bcrypt.compare(req.query.password, result[0].password).then(compareResult => {
         if (compareResult) {
           res.json(JWTUtil.signJWT(result[0]));
-        } else res.json(null);
+        } else res.json({});
       });
     }
   }).catch(err => logger.error('/usernamePasswordLogin', err));
