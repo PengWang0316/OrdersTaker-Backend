@@ -4,7 +4,7 @@ const mongodb = require('../../MongoDB');
 
 
 module.exports = (req, res) =>
-  mongodb.fetchOneUser(JWTUtil.verifyJWT({ message: req.query.jwtMessage, res })._id)
+  mongodb.fetchOneUser(JWTUtil.verifyJWT(req.query.jwtMessage, res)._id)
     .then(result => {
       const returnUser = { ...result, jwt: req.query.jwtMessage };
       delete returnUser.password; // Remove password before return.

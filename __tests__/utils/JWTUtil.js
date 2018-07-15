@@ -10,7 +10,7 @@ describe('JWTUtil', () => {
     const jwt = require('jsonwebtoken');
     const mockRes = { status: jest.fn() };
     const message = 'message';
-    expect(verifyJWT({ message, res: mockRes })).toBe(true);
+    expect(verifyJWT(message, mockRes)).toBe(true);
     expect(mockRes.status).toHaveBeenCalledTimes(1);
     expect(mockRes.status).toHaveBeenLastCalledWith(200);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
@@ -22,7 +22,7 @@ describe('JWTUtil', () => {
     jwt.verify.mockImplementation(() => { throw new Error(); });
     const mockRes = { status: jest.fn(), end: jest.fn() };
     const message = 'message';
-    expect(verifyJWT({ message, res: mockRes })).toBeNull();
+    expect(verifyJWT(message, mockRes)).toBeNull();
     expect(mockRes.status).toHaveBeenCalledTimes(2);
     expect(mockRes.status).toHaveBeenLastCalledWith(200);
     expect(mockRes.end).toHaveBeenCalledTimes(1);

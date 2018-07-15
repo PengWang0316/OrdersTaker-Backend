@@ -13,7 +13,7 @@ describe('GetJwtMessageVerify', () => {
     const JWTUtil = require('../../src/utils/JWTUtil');
     const { fetchOneUser } = require('../../src/MongoDB');
     await getJwtMessageVerify(req, res);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith({ message: 'jwtMessage', res });
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage', res);
     expect(fetchOneUser).toHaveBeenCalledTimes(1);
     expect(fetchOneUser).toHaveBeenLastCalledWith('id');
     expect(mockJsonFn).toHaveBeenLastCalledWith({
@@ -32,7 +32,7 @@ describe('GetJwtMessageVerify', () => {
       a: 1, b: 2, password: 'password', role: 1
     }));
     await getJwtMessageVerify(req, res);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith({ message: 'jwtMessage', res });
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage', res);
     expect(fetchOneUser).toHaveBeenCalledTimes(2);
     expect(fetchOneUser).toHaveBeenLastCalledWith('id');
     expect(mockJsonFn).toHaveBeenLastCalledWith({ a: 1, b: 2, role: 1, jwt: 'jwtMessage' });
@@ -48,7 +48,7 @@ describe('GetJwtMessageVerify', () => {
     const mongoDB = require('../../src/MongoDB');
     mongoDB.fetchOneUser = jest.fn().mockReturnValue(new Promise((resolve, reject) => reject()));
     await getJwtMessageVerify(req, res);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith({ message: 'jwtMessage', res });
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage', res);
     expect(mongoDB.fetchOneUser).toHaveBeenCalledTimes(1);
     expect(mongoDB.fetchOneUser).toHaveBeenLastCalledWith('id');
     expect(mockJsonFn).not.toHaveBeenCalled();
