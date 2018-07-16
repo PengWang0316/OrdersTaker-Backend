@@ -9,6 +9,7 @@ const DB_URL = process.env.DB_HOST;
 const COLLECTION_USER = 'users';
 const COLLECTION_BASIC_INFORMATION = 'BasicInformation';
 const COLLECTION_MENUS = 'Menus';
+const COLLECTION_ORDERS = 'orders';
 
 const DB_NAME = process.env.DB_NAME;
 
@@ -156,3 +157,18 @@ exports.fetchOneUser = id => new Promise((reslove, reject) =>
       if (err) reject(err);
       reslove(result);
     })));
+
+/**
+ * Saving a placed order and return a promise with the result.
+ * @param {object} order is the information will be saved to the database.
+ * @param {string} userId is the user's id.
+ * @return {Promise} Return a promise with the result's id.
+ */
+exports.savePlacedOrder = (order, userId) =>
+  new Promise((resolve, reject) =>
+    connectToDb(db =>
+      db.collection(COLLECTION_ORDERS)
+        .insert({ ...order, userId: new mongodb.ObjectId(userId) }, (err, result) => {
+          if (err) reject(err);
+          resolve(result.ops[0]._id.toString());
+        })));

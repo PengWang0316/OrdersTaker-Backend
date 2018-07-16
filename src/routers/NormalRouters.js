@@ -9,6 +9,8 @@ const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
 const getFetchBasicInformation = require('./functions/GetFetchBasicInformation');
 const getFetchAllMenu = require('./functions/GetFetchAllMenu');
 
+const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
+
 // cloudinary.config({ // confige the cloudinary library.
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
 //   api_key: process.env.CLOUDINARY_API_KEY,
@@ -24,5 +26,8 @@ normalRouter.get('/fetchBasicInformation', getFetchBasicInformation);
 
 /* Fetching all menu information */
 normalRouter.get('/fetchAllMenu', getFetchAllMenu);
+
+/* Saving the placed order */
+normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
 
 module.exports = normalRouter;
