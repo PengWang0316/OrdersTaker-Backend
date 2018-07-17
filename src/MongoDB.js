@@ -168,7 +168,7 @@ exports.savePlacedOrder = (order, userId) =>
   new Promise((resolve, reject) =>
     connectToDb(db =>
       db.collection(COLLECTION_ORDERS)
-        .insert({ ...order, userId: new mongodb.ObjectId(userId) }, (err, result) => {
+        .insert({ ...order, userId: userId ? new mongodb.ObjectId(userId) : null }, (err, result) => {
           if (err) reject(err);
           resolve(result.ops[0]._id.toString());
         })));
