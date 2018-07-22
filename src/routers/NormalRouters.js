@@ -9,6 +9,7 @@ const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
 const getFetchBasicInformation = require('./functions/GetFetchBasicInformation');
 const getFetchAllMenu = require('./functions/GetFetchAllMenu');
 const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
+const getFetchLoginUserOrders = require('./functions/GetFetchLoginUserOrders');
 
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
 
@@ -30,6 +31,9 @@ normalRouter.get('/fetchAllMenu', getFetchAllMenu);
 
 /* Fetching total orders' amount */
 normalRouter.get('/fetchOrderAmount', getFetchOrderAmount);
+
+/* Fetching orders for a login user */
+normalRouter.get('/fetchLoginUserOrders', getFetchLoginUserOrders);
 
 /* Saving the placed order */
 normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
