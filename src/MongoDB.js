@@ -168,14 +168,29 @@ exports.savePlacedOrder = (order, userId) =>
   new Promise((resolve, reject) =>
     connectToDb(db =>
       db.collection(COLLECTION_ORDERS)
-        .insert({ ...order, userId: userId ? new mongodb.ObjectId(userId) : null }, (err, result) => {
+        .insert({ ...order, userId: userId ? new mongodb.ObjectId(userId) : null, dateStamp: new Date() }, (err, result) => {
           if (err) reject(err);
           resolve(result.ops[0]._id.toString());
         })));
 
+/**
+ * Fetching and returning the total amount of orders a user has.
+ * @param {string} userId is the id for the user
+ * @return {Promise} Return a promise.
+ */
 exports.fetchOrderAmount = userId => new Promise((resolve, reject) =>
   connectToDb(db => db.collection(COLLECTION_ORDERS).count({ userId: new mongodb.ObjectId(userId) })
     .then((err, result) => {
       if (err) reject(err);
       else resolve(result);
     })));
+
+/**
+ * Fetching and returning a order array for the giving user.
+ * @param {int} offset is the number should be skipped.
+ * @param {*} amount is the number limitation of the return value.
+ * @param {*} userId is the user's id
+ * @return {Promise} Return a promise.
+ */
+exports.fetchLoginUserOrders = (offset, amount, userId) =>
+  promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ userId: new mongodb.ObjectID(userId) }, { skip: offset, limit: amount, sort: { dateStamp: 1 } }));
