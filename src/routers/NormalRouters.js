@@ -8,6 +8,7 @@ require('dotenv').config(); // Loading .env to process.env
 const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
 const getFetchBasicInformation = require('./functions/GetFetchBasicInformation');
 const getFetchAllMenu = require('./functions/GetFetchAllMenu');
+const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
 
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
 
@@ -26,6 +27,9 @@ normalRouter.get('/fetchBasicInformation', getFetchBasicInformation);
 
 /* Fetching all menu information */
 normalRouter.get('/fetchAllMenu', getFetchAllMenu);
+
+/* Fetching total orders' amount */
+normalRouter.get('/fetchOrderAmount', getFetchOrderAmount);
 
 /* Saving the placed order */
 normalRouter.post('/savePlacedOrder', postSavePlacedOrder);

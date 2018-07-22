@@ -172,3 +172,10 @@ exports.savePlacedOrder = (order, userId) =>
           if (err) reject(err);
           resolve(result.ops[0]._id.toString());
         })));
+
+exports.fetchOrderAmount = userId => new Promise((resolve, reject) =>
+  connectToDb(db => db.collection(COLLECTION_ORDERS).count({ userId: new mongodb.ObjectId(userId) })
+    .then((err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    })));
