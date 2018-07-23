@@ -4,6 +4,7 @@
   "description": "The back-end code for the Orders Taker project.",
   "main": "src/App.js",
   "scripts": {
+    "start": "node src/App.js", 
     "test": "jest"
   },
   "author": "Kevin W.",
