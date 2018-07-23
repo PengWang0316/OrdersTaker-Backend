@@ -6,5 +6,5 @@ module.exports = (req, res) => {
   const newOrderIds = orderIds.slice(offset, offset + amount); // Making a new array based on the offset and amount.
   return mongodb.fetchUnloginUserOrders(newOrderIds)
     .then(data => res.json(data))
-    .catch(err => logger.error('/fetchLoginOrders', err));
+    .catch(err => logger.error('/fetchUnloginOrders', err));
 };
