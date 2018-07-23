@@ -2,7 +2,7 @@
   "name": "orderstaker_backend",
   "version": "0.0.1",
   "description": "The back-end code for the Orders Taker project.",
-  "main": "App.js",
+  "main": "src/App.js",
   "scripts": {
     "test": "jest"
   },
@@ -24,6 +24,7 @@
     "passport-google-oauth": "^1.0.0",
     "passport-google-oauth2": "^0.1.6",
     "querystring": "^0.2.0",
+    "spdy": "^3.4.7",
     "web-push": "^3.2.5",
     "winston": "^2.4.0"
   },
