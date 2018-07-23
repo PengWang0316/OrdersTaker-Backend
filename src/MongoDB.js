@@ -196,13 +196,11 @@ exports.fetchLoginUserOrders = (offset, amount, userId) =>
   promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ userId: new mongodb.ObjectID(userId) }, { skip: offset, limit: amount, sort: { dateStamp: 1 } }));
 
 /**
- * Fetching and returning a order array for the giving user.
- * @param {int} offset is the number should be skipped.
- * @param {int} amount is the number limitation of the return value.
+ * Fetching and returning a order array based on the giving order ids.
  * @param {array} orderIds is an array that contains all orders' ids
  * @return {Promise} Return a promise.
  */
-exports.fetchLoginUserOrders = orderIds => {
+exports.fetchUnloginUserOrders = orderIds => {
   const objectIds = orderIds.map(id => new mongodb.ObjectID(id)); // Trunning the string array to an ObjectId array.
-  return promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ userId: { $in: objectIds } }, { sort: { dateStamp: 1 } }));
+  return promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ _id: { $in: objectIds } }, { sort: { dateStamp: 1 } }));
 };
