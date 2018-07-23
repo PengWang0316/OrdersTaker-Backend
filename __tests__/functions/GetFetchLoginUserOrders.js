@@ -18,7 +18,7 @@ describe('GetFetchLoginUserOrders', () => {
     expect(res.json).toHaveBeenLastCalledWith([{ id: 1 }, { id: 2 }]);
     expect(Logger.error).not.toHaveBeenCalled();
     expect(JWTUtil.verifyJWT).toHaveBeenCalledTimes(1);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage');
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage', res);
   });
 
   test('getFetchLoginUserOrders with database error', async () => {
@@ -34,6 +34,6 @@ describe('GetFetchLoginUserOrders', () => {
     expect(res.json).not.toHaveBeenCalled();
     expect(Logger.error).toHaveBeenCalledTimes(1);
     expect(JWTUtil.verifyJWT).toHaveBeenCalledTimes(2);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessageA');
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessageA', res);
   });
 });

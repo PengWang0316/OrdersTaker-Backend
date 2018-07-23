@@ -17,7 +17,7 @@ describe('GetFetchOrderAmount', () => {
     expect(res.end).toHaveBeenCalledTimes(1);
     expect(Logger.error).not.toHaveBeenCalled();
     expect(JWTUtil.verifyJWT).toHaveBeenCalledTimes(1);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage');
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessage', res);
   });
 
   test('getFetchOrderAmount with database error', async () => {
@@ -31,6 +31,6 @@ describe('GetFetchOrderAmount', () => {
     expect(res.end).not.toHaveBeenCalled();
     expect(Logger.error).toHaveBeenCalledTimes(1);
     expect(JWTUtil.verifyJWT).toHaveBeenCalledTimes(2);
-    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessageA');
+    expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith('jwtMessageA', res);
   });
 });
