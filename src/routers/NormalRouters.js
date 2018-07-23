@@ -34,7 +34,7 @@ normalRouter.get('/fetchAllMenu', getFetchAllMenu);
 normalRouter.get('/fetchOrderAmount', getFetchOrderAmount);
 
 /* Fetching orders for a login user */
-normalRouter.get('/fetchLoginUserOrders', getFetchLoginUserOrders);
+normalRouter.get('/fetchOrders', getFetchLoginUserOrders);
 
 /* Fetching orders for a login user */
 normalRouter.get('/fetchUnloginOrders', getFetchUnloginUserOrders);
