@@ -180,9 +180,9 @@ exports.savePlacedOrder = (order, userId) =>
  */
 exports.fetchOrderAmount = userId => new Promise((resolve, reject) =>
   connectToDb(db => db.collection(COLLECTION_ORDERS).count({ userId: new mongodb.ObjectId(userId) })
-    .then((err, result) => {
+    .then((result, err) => {
       if (err) reject(err);
-      else resolve(result);
+      else resolve(result.toString());
     })));
 
 /**
