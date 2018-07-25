@@ -195,7 +195,7 @@ exports.fetchOrderAmount = userId => new Promise((resolve, reject) =>
  * @return {Promise} Return a promise.
  */
 exports.fetchLoginUserOrders = (offset, amount, userId) =>
-  promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ userId: new mongodb.ObjectID(userId) }, { skip: offset, limit: amount, sort: { dateStamp: 1 } }));
+  promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ userId: new mongodb.ObjectID(userId) }, { skip: offset, limit: amount, sort: { dateStamp: -1 } }));
 
 /**
  * Fetching and returning a order array based on the giving order ids.
@@ -204,5 +204,5 @@ exports.fetchLoginUserOrders = (offset, amount, userId) =>
  */
 exports.fetchUnloginUserOrders = orderIds => {
   const objectIds = orderIds.map(id => new mongodb.ObjectID(id)); // Trunning the string array to an ObjectId array.
-  return promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ _id: { $in: objectIds } }, { sort: { dateStamp: 1 } }));
+  return promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ _id: { $in: objectIds } }, { sort: { dateStamp: -1 } }));
 };
