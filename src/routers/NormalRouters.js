@@ -14,6 +14,8 @@ const getFetchUnloginUserOrders = require('./functions/GetFetchUnloginUserOrders
 
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
 
+const updateLinkOrderToAccount = require('./functions/UpdateLinkOrderToAccount');
+
 // cloudinary.config({ // confige the cloudinary library.
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
 //   api_key: process.env.CLOUDINARY_API_KEY,
@@ -41,5 +43,8 @@ normalRouter.get('/fetchUnloginOrders', getFetchUnloginUserOrders);
 
 /* Saving the placed order */
 normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
+
+/* Linking a unlogin order to a user account */
+normalRouter.put('/linkOrderToAccount', updateLinkOrderToAccount);
 
 module.exports = normalRouter;

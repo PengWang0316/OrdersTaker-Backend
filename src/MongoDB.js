@@ -206,3 +206,12 @@ exports.fetchUnloginUserOrders = orderIds => {
   const objectIds = orderIds.map(id => new mongodb.ObjectID(id)); // Trunning the string array to an ObjectId array.
   return promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ _id: { $in: objectIds } }, { sort: { dateStamp: -1 } }));
 };
+
+/**
+ * Updating a order's userId.
+ * @param {string} orderId is the id of the order.
+ * @param {string} userId is the id of the user.
+ * @return {null} No return.
+ */
+exports.linkOrderToAccount = (orderId, userId) =>
+  connectToDb(db => db.collection(COLLECTION_ORDERS).updateOne({ _id: new mongodb.ObjectID(orderId), userId: null }, { $set: { userId: new mongodb.ObjectId(userId) } }));
