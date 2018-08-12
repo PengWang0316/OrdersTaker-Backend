@@ -215,3 +215,11 @@ exports.fetchUnloginUserOrders = orderIds => {
  */
 exports.linkOrderToAccount = (orderId, userId) =>
   connectToDb(db => db.collection(COLLECTION_ORDERS).updateOne({ _id: new mongodb.ObjectID(orderId), userId: null }, { $set: { userId: new mongodb.ObjectId(userId) } }));
+
+/**
+ * Fetching all unfinished orders
+ * @return {array} Return an array with all unfinished orders.
+ */
+exports.fetchUnfinishedOrders = () =>
+  promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ isFinished: undefined }));
+

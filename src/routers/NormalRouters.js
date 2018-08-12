@@ -11,6 +11,7 @@ const getFetchAllMenu = require('./functions/GetFetchAllMenu');
 const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
 const getFetchLoginUserOrders = require('./functions/GetFetchLoginUserOrders');
 const getFetchUnloginUserOrders = require('./functions/GetFetchUnloginUserOrders');
+const getFetchUnfinishedOrders = require('./functions/GetFetchUnfinishedOrders');
 
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
 
@@ -40,6 +41,9 @@ normalRouter.get('/fetchOrders', getFetchLoginUserOrders);
 
 /* Fetching orders for a login user */
 normalRouter.get('/fetchUnloginOrders', getFetchUnloginUserOrders);
+
+/* Fetching unfinished orders */
+normalRouter.get('/fetchUnfinishedOrders', getFetchUnfinishedOrders);
 
 /* Saving the placed order */
 normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
