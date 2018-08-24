@@ -22,8 +22,8 @@ const usernamePasswordRouters = require('./routers/UsernamePasswordRouters');
 // }))
 
 const credentials = { // Config to use ssl
-  key: fs.readFileSync('/etc/letsencrypt/live/kairoscope.resonancepath.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/kairoscope.resonancepath.com/fullchain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/orderstaker.kevin-project.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/orderstaker.kevin-project.com/fullchain.pem'),
 };
 
 require('dotenv').config(); // Loading .env to process.env
