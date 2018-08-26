@@ -20,5 +20,11 @@ pipeline {
                 sh 'npm test'
             }
         }
+        stage('Deliver') { 
+            steps {
+                input message: 'Make suer everything is ok. (Click "Proceed" to deploy to the production server)' 
+                sh './jenkins/scripts/deliver.sh' 
+            }
+        }
     }
 }

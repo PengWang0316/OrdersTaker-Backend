@@ -1,0 +1,1 @@
+ssh -i /home/JenkinsAws2018.pem ubuntu@orderstaker.kevin-project.com "node -v"
