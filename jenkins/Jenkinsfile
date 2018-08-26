@@ -2,7 +2,8 @@ pipeline {
     agent {
         dockerfile {
             filename './jenkins/Dockerfile' 
-            args '-p 3000:3000' 
+            args '-p 3000:3000'
+            args '--tmpfs /.config'
         }
     }
     environment {
