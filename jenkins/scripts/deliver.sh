@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 echo 'Stopping the pm2 Node instance'
 ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com sudo pm2 stop App
 echo 'Copying the package.json file to the remote server'
