@@ -27,8 +27,7 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com sudo pm2 stop App'
                     sh 'scp -r -o StrictHostKeyChecking=no /var/jenkins_home/workspace/OrdersTakerBackEnd/package.json ubuntu@orderstaker.kevin-project.com:NodeFiles/'
                     sh 'scp -r -o StrictHostKeyChecking=no /var/jenkins_home/workspace/OrdersTakerBackEnd/src ubuntu@orderstaker.kevin-project.com:NodeFiles/'
-                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com \'bash -c \"cd NodeFiles && ls\"\''
-                    // sh 'ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com cd /home/ubuntu/NodeFiles/src ; sudo pm2 start App.js'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com \'bash -c \"cd NodeFiles && npm i && sudo pm2 start src/App.js\"\''
                 }
             }
         }
