@@ -23,7 +23,9 @@ pipeline {
         stage('Deliver') { 
             steps {
                 input message: 'Make suer everything is ok. (Click "Proceed" to deploy to the production server)' 
-                sh './jenkins/scripts/deliver.sh' 
+                sshagent(credentials : ['abe0d167-e79b-49f2-b141-832e0f302786']) {
+                    sh 'ssh ubuntu@orderstaker.kevin-project.com node -v'
+                }
             }
         }
     }
