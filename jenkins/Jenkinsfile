@@ -24,7 +24,10 @@ pipeline {
             steps {
                 // input message: 'Make suer everything is ok (Click "Proceed" to deploy to the production server)' 
                 sshagent(credentials : ['abe0d167-e79b-49f2-b141-832e0f302786']) {
-                    sh './jenkins/scripts/deliver.sh'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com sudo pm2 stop App'
+                    sh 'scp -r -o StrictHostKeyChecking=no /var/jenkins_home/workspace/OrdersTakerBackEnd/package.json ubuntu@orderstaker.kevin-project.com:NodeFiles/'	
+                    sh 'scp -r -o StrictHostKeyChecking=no /var/jenkins_home/workspace/OrdersTakerBackEnd/src ubuntu@orderstaker.kevin-project.com:NodeFiles/'	
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@orderstaker.kevin-project.com \'bash -c \"cd NodeFiles && npm i && sudo pm2 start src/App.js\"\''
                 }
             }
         }
