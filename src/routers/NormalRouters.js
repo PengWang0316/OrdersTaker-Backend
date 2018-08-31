@@ -16,6 +16,7 @@ const getFetchUnfinishedOrders = require('./functions/GetFetchUnfinishedOrders')
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
 
 const updateLinkOrderToAccount = require('./functions/UpdateLinkOrderToAccount');
+const updateFinishedItems = require('./functions/UpdateFinishedItems');
 
 // cloudinary.config({ // confige the cloudinary library.
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -50,5 +51,8 @@ normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
 
 /* Linking a unlogin order to a user account */
 normalRouter.put('/linkOrderToAccount', updateLinkOrderToAccount);
+
+/* Update the finished itmes list for the order */
+normalRouter.put('/updateFinishedItems', updateFinishedItems);
 
 module.exports = normalRouter;
