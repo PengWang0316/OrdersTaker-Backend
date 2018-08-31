@@ -1,0 +1,5 @@
+module.exports = {
+  ADMINISTRATOR_ROLE: 1,
+  SUPER_USER_ROLE: 2,
+  NORMAL_USER_ROLE: 3
+};
