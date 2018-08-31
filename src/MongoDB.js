@@ -40,18 +40,28 @@ if (process.env.NODE_ENV === 'production')
 * Other function can call it to get the connection.
 * Pass a function that contains the executed code.
 */
-const connectToDb = executeFunction => {
-  MongoClient.connect(DB_URL, (err, client) => {
-    if (err)
-      logger.error('Unable to connect to the mongoDB server. Error:', err);
-    else
-      // console.log("Connection of MongonDB was established.");
-      // Run given mehtod
-      executeFunction(client.db(DB_NAME));
-
+const connectToDb = async executeFunction => {
+  try {
+    const client = await MongoClient.connect(DB_URL, { useNewUrlParser: true });
+    executeFunction(client.db(DB_NAME));
     client.close();
-  });
+  } catch (e) {
+    logger.error('Unable to connect to the mongoDB server. Error:', e);
+  }
 };
+// const connectToDb = executeFunction => {
+//   MongoClient.connect(DB_URL, (err, client) => {
+//     if (err)
+//       logger.error('Unable to connect to the mongoDB server. Error:', err);
+//     else
+//       // console.log("Connection of MongonDB was established.");
+//       // Run given mehtod
+//       executeFunction(client.db(DB_NAME));
+
+//     client.close();
+//   });
+// };
+
 
 /* Using Promise to wrap connection and toArray */
 const promiseFindResult = callback => new Promise((resolve, reject) => {
