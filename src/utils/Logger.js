@@ -4,7 +4,7 @@ const winston = require('winston');
 /** Setting up the Winston logger.
   * Under the development mode log to console.
 */
-const logger = new winston.Logger({
+const logger = winston.createLogger({
   level: process.env.LOGGING_LEVEL,
   transports: [
     new (winston.transports.Console)()
