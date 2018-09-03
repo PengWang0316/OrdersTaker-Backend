@@ -1,13 +1,20 @@
+const https = require('https');
+const socketio = require('socket.io');
+const { SOCKETIO_EVENT_ADD_NEW_ORDER, SOCKETIO } = require('./config');
+
 module.exports = (app, credentials) => {
   // Setting up the Socket Io
-  const socketIoHttps = require('https').Server(credentials, app);
-  const io = require('socket.io')(socketIoHttps);
-  app.set('socketio', io); // Setting the io to the app variable
+  const socketIoHttps = https.Server(credentials, app);
+  const io = socketio(socketIoHttps);
+  app.set(SOCKETIO, io); // Setting the io to the app variable
 
   // // ************* Start the Socket IO functions ************* //
-  io.on('connection', () => console.log('connect'));
+  // io.on('connection', socket => {
+  //   socket.on(SOCKETIO_EVENT_ADD_NEW_ORDER, data => {
+  //     console.log(data);
+  //   });
+  // });
 
   // Starting the SocketIo server
   socketIoHttps.listen(process.env.WEB_SOCKET_PORT, () => console.log(`Socket.io is listening on ${process.env.WEB_SOCKET_PORT}`));
-}
-
+};
