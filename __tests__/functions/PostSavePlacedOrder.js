@@ -1,5 +1,5 @@
 import PostSavePlacedOrder from '../../src/routers/functions/PostSavePlacedOrder';
-import { throws } from 'assert';
+import { SOCKETIO_EVENT_ADD_NEW_ORDER, SOCKETIO } from '../../src/config';
 
 jest.mock('../../src/utils/Logger', () => ({ error: jest.fn() }));
 jest.mock('../../src/utils/JWTUtil', () => ({ verifyJWT: jest.fn().mockReturnValue({ _id: 'userId' }) }));
@@ -45,7 +45,8 @@ describe('PostSavePlaceOrder', () => {
 
     // Table number is undefined
     const mockEndFn = jest.fn();
-    const req = { body: { order: { tableNumber: 2, items: { id: 1 } } } };
+    const mockEmitFn = jest.fn();
+    const req = { body: { order: { tableNumber: 2, items: { id: 1 } } }, app: { get: jest.fn().mockReturnValue({ emit: mockEmitFn }) } };
     const res = { end: mockEndFn };
     await PostSavePlacedOrder(req, res);
 
@@ -55,6 +56,10 @@ describe('PostSavePlaceOrder', () => {
     expect(Logger.error).not.toHaveBeenCalled();
     expect(mockEndFn).toHaveBeenCalledTimes(1);
     expect(mockEndFn).toHaveBeenCalledWith('orderId');
+    expect(req.app.get).toHaveBeenCalledTimes(1);
+    expect(req.app.get).toHaveBeenLastCalledWith(SOCKETIO);
+    expect(mockEmitFn).toHaveBeenCalledTimes(1);
+    expect(mockEmitFn).toHaveBeenLastCalledWith(SOCKETIO_EVENT_ADD_NEW_ORDER, { ...req.body.order, _id: 'orderId' });
   });
 
   test('savePlaceOrder with jwtMessage', async () => {
@@ -64,7 +69,8 @@ describe('PostSavePlaceOrder', () => {
 
     // Table number is undefined
     const mockEndFn = jest.fn();
-    const req = { body: { order: { tableNumber: 2, items: { id: 1 } }, jwtMessage: 'jwtMessage' } };
+    const mockEmitFn = jest.fn();
+    const req = { body: { order: { tableNumber: 2, items: { id: 1 } }, jwtMessage: 'jwtMessage' }, app: { get: jest.fn().mockReturnValue({ emit: mockEmitFn }) } };
     const res = { end: mockEndFn };
     await PostSavePlacedOrder(req, res);
 
@@ -75,6 +81,10 @@ describe('PostSavePlaceOrder', () => {
     expect(Logger.error).not.toHaveBeenCalled();
     expect(mockEndFn).toHaveBeenCalledTimes(1);
     expect(mockEndFn).toHaveBeenCalledWith('orderId');
+    expect(req.app.get).toHaveBeenCalledTimes(1);
+    expect(req.app.get).toHaveBeenLastCalledWith(SOCKETIO);
+    expect(mockEmitFn).toHaveBeenCalledTimes(1);
+    expect(mockEmitFn).toHaveBeenLastCalledWith(SOCKETIO_EVENT_ADD_NEW_ORDER, { ...req.body.order, _id: 'orderId' });
   });
 
   test('savePlaceOrder with database error', async () => {

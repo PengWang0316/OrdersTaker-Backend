@@ -1,6 +1,7 @@
 const logger = require('../../utils/Logger');
 const JWTUtil = require('../../utils/JWTUtil');
 const mongodb = require('../../MongoDB');
+const { SOCKETIO_EVENT_ADD_NEW_ORDER, SOCKETIO } = require('../../config');
 
 module.exports = (req, res) => {
   const { order, jwtMessage } = req.body;
@@ -11,7 +12,10 @@ module.exports = (req, res) => {
   }
   const userId = jwtMessage ? JWTUtil.verifyJWT(jwtMessage, res)._id : null; // Get the user id, if the user has already logged in.
   return mongodb.savePlacedOrder(order, userId)
-    .then(orderId => res.end(orderId))
+    .then(orderId => {
+      req.app.get(SOCKETIO).emit(SOCKETIO_EVENT_ADD_NEW_ORDER, { ...order, _id: orderId });
+      res.end(orderId);
+    })
     .catch(err => {
       logger.error('/savePlacedOrder', err);
       res.end();
