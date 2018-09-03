@@ -8,6 +8,6 @@ module.exports = (app, credentials) => {
   io.on('connection', () => console.log('connect'));
 
   // Starting the SocketIo server
-  socketIoHttps.listen(process.env.TEST_WEB_SOCKET_PORT, () => console.log(`Socket.io is listening on ${process.env.TEST_WEB_SOCKET_PORT}`));
+  socketIoHttps.listen(process.env.WEB_SOCKET_PORT, () => console.log(`Socket.io is listening on ${process.env.WEB_SOCKET_PORT}`));
 }
 
