@@ -1,5 +1,4 @@
 const normalRouter = require('express').Router();
-// const winston = require('winston');  Moved out to the utils
 const cloudinary = require('cloudinary');
 
 require('dotenv').config(); // Loading .env to process.env
