@@ -22,7 +22,7 @@ describe('JWTUtil', () => {
     jwt.verify.mockImplementation(() => { throw new Error(); });
     const mockRes = { status: jest.fn(), end: jest.fn() };
     const message = 'message';
-    expect(verifyJWT(message, mockRes)).toBeNull();
+    expect(() => verifyJWT(message, mockRes)).toThrow();
     expect(mockRes.status).toHaveBeenCalledTimes(2);
     expect(mockRes.status).toHaveBeenLastCalledWith(200);
     expect(mockRes.end).toHaveBeenCalledTimes(1);

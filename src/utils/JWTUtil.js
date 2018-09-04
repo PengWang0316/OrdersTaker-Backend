@@ -13,7 +13,8 @@ const verifyJWT = (message, res) => {
   } catch (e) {
     res.status(200);
     res.end();
-    return null;
+    throw Error('No authority.');
+    // return null;
   }
 };
 
