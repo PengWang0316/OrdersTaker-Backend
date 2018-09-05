@@ -1,7 +1,7 @@
-// const logger = require('../../utils/Logger');
+const Logger = require('../../utils/Logger');
 const JWTUtil = require('../../utils/JWTUtil');
 const mongodb = require('../../MongoDB');
-const { SUPER_USER_ROLE } = require('../../config');
+const { SUPER_USER_ROLE, SOCKETIO_EVENT_UPDATE_ORDER_ITEM, SOCKETIO } = require('../../config');
 
 module.exports = (req, res) => {
   const {
@@ -12,6 +12,13 @@ module.exports = (req, res) => {
     res.end();
     throw new Error('Invalid user');
   }
-  mongodb.updateFinishedItems(orderId, itemId, isFinished);
-  res.end();
+  return mongodb.updateFinishedItems(orderId, itemId, isFinished)
+    .then(() => {
+      req.app.get(SOCKETIO)
+        .emit(SOCKETIO_EVENT_UPDATE_ORDER_ITEM, { orderId, itemId, isFinished });
+      res.end();
+    }).catch(err => {
+      Logger.error('/updateFinishedItems', err);
+      res.end();
+    });
 };

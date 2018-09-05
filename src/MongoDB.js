@@ -240,8 +240,12 @@ exports.fetchUnfinishedOrders = () =>
  * @param {bool} isFinished is the indicator that shows whether the item is finished.
  * @return {null} No return.
  */
-exports.updateFinishedItems = (orderId, itemId, isFinished) => {
+exports.updateFinishedItems = (orderId, itemId, isFinished) => new Promise((resolve, reject) => {
   const finishedItem = `finishedItems.${itemId}`;
-  connectToDb(db => db.collection(COLLECTION_ORDERS)
-    .updateOne({ _id: new mongodb.ObjectId(orderId) }, isFinished ? { $set: { [finishedItem]: true } } : { $unset: { [finishedItem]: '' } }));
-};
+  return connectToDb(db => db.collection(COLLECTION_ORDERS)
+    .updateOne({ _id: new mongodb.ObjectId(orderId) }, isFinished ? { $set: { [finishedItem]: true } } : { $unset: { [finishedItem]: '' } })
+    .then((result, err) => {
+      if (err) reject(err);
+      resolve();
+    }));
+});

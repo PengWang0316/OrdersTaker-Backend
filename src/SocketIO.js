@@ -1,6 +1,6 @@
 const https = require('https');
 const socketio = require('socket.io');
-const { SOCKETIO_EVENT_ADD_NEW_ORDER, SOCKETIO } = require('./config');
+const { SOCKETIO } = require('./config');
 
 module.exports = (app, credentials) => {
   // Setting up the Socket Io
