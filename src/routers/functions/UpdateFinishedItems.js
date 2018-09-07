@@ -5,17 +5,17 @@ const { SUPER_USER_ROLE, SOCKETIO_EVENT_UPDATE_ORDER_ITEM, SOCKETIO } = require(
 
 module.exports = (req, res) => {
   const {
-    orderId, itemId, isFinished, jwt
+    orderId, itemId, isItemFinished, isOrderFinished, jwt
   } = req.body;
   const user = JWTUtil.verifyJWT(jwt, res);
   if (user.role > SUPER_USER_ROLE) {
     res.end();
     throw new Error('Invalid user');
   }
-  return mongodb.updateFinishedItems(orderId, itemId, isFinished)
+  return mongodb.updateFinishedItems(orderId, itemId, isItemFinished, isOrderFinished)
     .then(() => {
       req.app.get(SOCKETIO)
-        .emit(SOCKETIO_EVENT_UPDATE_ORDER_ITEM, { orderId, itemId, isFinished });
+        .emit(SOCKETIO_EVENT_UPDATE_ORDER_ITEM, { orderId, itemId, isItemFinished });
       res.end();
     }).catch(err => {
       Logger.error('/updateFinishedItems', err);
