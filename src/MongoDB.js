@@ -230,20 +230,21 @@ exports.linkOrderToAccount = (orderId, userId) =>
  * Fetching all unfinished orders
  * @return {array} Return an array with all unfinished orders.
  */
-exports.fetchUnfinishedOrders = () =>
-  promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ isFinished: undefined }));
+exports.fetchUnfinishedOrders = () => promiseFindResult(db => db.collection(COLLECTION_ORDERS)
+  .find({ $or: [{ isFinished: { $exists: false } }, { isFinished: false }] }));
 
 /**
  * Updating the finished items list for the order
  * @param {string} orderId is the id for the order that will be updated.
  * @param {string} itemId is the id for the item that will be updated in the order.
- * @param {bool} isFinished is the indicator that shows whether the item is finished.
+ * @param {bool} isItemFinished is the indicator that shows whether the item is finished.
+ * @param {bool} isOrderFinished is the indicator that shows whether the order is finished.
  * @return {null} No return.
  */
-exports.updateFinishedItems = (orderId, itemId, isFinished) => new Promise((resolve, reject) => {
+exports.updateFinishedItems = (orderId, itemId, isItemFinished, isOrderFinished) => new Promise((resolve, reject) => {
   const finishedItem = `finishedItems.${itemId}`;
   return connectToDb(db => db.collection(COLLECTION_ORDERS)
-    .updateOne({ _id: new mongodb.ObjectId(orderId) }, isFinished ? { $set: { [finishedItem]: true } } : { $unset: { [finishedItem]: '' } })
+    .updateOne({ _id: new mongodb.ObjectId(orderId) }, isItemFinished ? { $set: { [finishedItem]: true, isFinished: isOrderFinished } } : { $unset: { [finishedItem]: '' }, $set: { isFinished: isOrderFinished } })
     .then((result, err) => {
       if (err) reject(err);
       resolve();
