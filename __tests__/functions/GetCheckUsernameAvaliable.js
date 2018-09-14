@@ -1,37 +1,41 @@
 import checkUsernameAvaliable from '../../src/routers/functions/GetCheckUsernameAvailable';
 
 jest.mock('../../src/utils/Logger', () => ({ error: jest.fn() }));
-jest.mock('../../src/MongoDB', () => ({ findUserWithUsername: jest.fn().mockReturnValue(Promise.resolve([1])) }));
+jest.mock('../../src/MongoDB', () => ({ isUserNameAvailable: jest.fn().mockReturnValue(Promise.resolve(true)) }));
 
 describe('CheckUsernameAvaliable', () => {
   test('run without error', async () => {
     const mongodb = require('../../src/MongoDB');
     const mockEndFn = jest.fn();
-    const res = { end: mockEndFn };
+    const mockJsonFn = jest.fn();
+    const res = { end: mockEndFn, json: mockJsonFn };
     const req = { query: { username: 'username' } };
     await checkUsernameAvaliable(req, res);
-    expect(mongodb.findUserWithUsername).toHaveBeenCalledTimes(1);
-    expect(mongodb.findUserWithUsername).toHaveBeenLastCalledWith('username');
-    expect(mockEndFn).toHaveBeenCalledTimes(1);
-    expect(mockEndFn).toHaveBeenLastCalledWith(false);
+    expect(mongodb.isUserNameAvailable).toHaveBeenCalledTimes(1);
+    expect(mongodb.isUserNameAvailable).toHaveBeenLastCalledWith('username');
+    expect(mockJsonFn).toHaveBeenCalledTimes(1);
+    expect(mockJsonFn).toHaveBeenLastCalledWith(true);
+    expect(mockEndFn).not.toHaveBeenCalled();
 
-    mongodb.findUserWithUsername.mockReturnValueOnce(Promise.resolve([]));
+    mongodb.isUserNameAvailable.mockReturnValueOnce(Promise.resolve(false));
     await checkUsernameAvaliable(req, res);
-    expect(mockEndFn).toHaveBeenCalledTimes(2);
-    expect(mockEndFn).toHaveBeenLastCalledWith(true);
+    expect(mockJsonFn).toHaveBeenCalledTimes(2);
+    expect(mockJsonFn).toHaveBeenLastCalledWith(false);
   });
 
   test('run with error', async () => {
     const mongodb = require('../../src/MongoDB');
-    mongodb.findUserWithUsername.mockReturnValueOnce(Promise.reject());
+    mongodb.isUserNameAvailable.mockReturnValueOnce(Promise.reject());
     const logger = require('../../src/utils/Logger'); 
     const mockEndFn = jest.fn();
-    const res = { end: mockEndFn };
+    const mockJsonFn = jest.fn();
+    const res = { end: mockEndFn, json: mockJsonFn };
     const req = { query: { username: 'username' } };
     await checkUsernameAvaliable(req, res);
-    expect(mongodb.findUserWithUsername).toHaveBeenCalledTimes(3);
-    expect(mongodb.findUserWithUsername).toHaveBeenLastCalledWith('username');
-    expect(mockEndFn).not.toHaveBeenCalled();
+    expect(mongodb.isUserNameAvailable).toHaveBeenCalledTimes(3);
+    expect(mongodb.isUserNameAvailable).toHaveBeenLastCalledWith('username');
+    expect(mockJsonFn).not.toHaveBeenCalled();
+    expect(mockEndFn).toHaveBeenCalledTimes(1);
     expect(logger.error).toHaveBeenCalledTimes(1);
   });
 });
