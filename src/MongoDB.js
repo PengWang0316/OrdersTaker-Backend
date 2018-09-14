@@ -145,16 +145,17 @@ exports.getUser = (username, password, callback) => {
 };
 
 /* checking whether user name is still available */
-exports.isUserNameAvailable = query => new Promise((resolve, reject) =>
-  connectToDb(db =>
-    db.collection(COLLECTION_USER)
-      .find({ username: query.userName }).next((err, result) => resolve(!result))));
+exports.isUserNameAvailable = username => new Promise((resolve, reject) => connectToDb(db => db.collection(COLLECTION_USER)
+  .find({ username }).next((err, result) => {
+    if (err) reject(err);
+    resolve(!result);
+  })));
 
 exports.createNewUser = (user, callback) => {
   const insertUser = Object.assign({ role: 3 }, user); // set user a Emerald role
   connectToDb((db) => {
     db.collection(COLLECTION_USER)
-      .insert(insertUser, (err, result) => { callback(result.ops[0]); });
+      .insertOne(insertUser, (err, result) => { callback(result.ops[0]); });
   });
 };
 
@@ -178,7 +179,7 @@ exports.savePlacedOrder = (order, userId) =>
   new Promise((resolve, reject) =>
     connectToDb(db =>
       db.collection(COLLECTION_ORDERS)
-        .insert({
+        .insertOne({
           ...order, userId: userId ? new mongodb.ObjectId(userId) : null, dateStamp: new Date(), status: 'Received'
         }, (err, result) => {
           if (err) reject(err);
