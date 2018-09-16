@@ -205,8 +205,8 @@ exports.fetchOrderAmount = userId => new Promise((resolve, reject) =>
  * @param {string} userId is the user's id
  * @return {Promise} Return a promise.
  */
-exports.fetchLoginUserOrders = (offset, amount, userId) =>
-  promiseFindResult(db => db.collection(COLLECTION_ORDERS).find({ userId: new mongodb.ObjectID(userId) }, { skip: offset, limit: amount, sort: { dateStamp: -1 } }));
+exports.fetchLoginUserOrders = (offset, amount, userId) => promiseFindResult(db => db.collection(COLLECTION_ORDERS)
+  .find({ userId: new mongodb.ObjectID(userId) }, { skip: offset, limit: amount, sort: { dateStamp: -1 } }));
 
 /**
  * Fetching and returning a order array based on the giving order ids.
