@@ -1,11 +1,11 @@
 const normalRouter = require('express').Router();
-const cloudinary = require('cloudinary');
+// const cloudinary = require('cloudinary');
 
 require('dotenv').config(); // Loading .env to process.env
 
 // Functions import
 const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
-const getFetchBasicInformation = require('./functions/GetFetchBasicInformation');
+const fetchBasicInformation = require('../controllers/FetchBasicInformation');
 const getFetchAllMenu = require('./functions/GetFetchAllMenu');
 const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
 const getFetchLoginUserOrders = require('./functions/GetFetchLoginUserOrders');
@@ -28,7 +28,7 @@ const updateFinishedItems = require('./functions/UpdateFinishedItems');
 normalRouter.get('/jwtMessageVerify', getJwtMessageVerify);
 
 /* Fetching the basic information */
-normalRouter.get('/fetchBasicInformation', getFetchBasicInformation);
+normalRouter.get('/fetchBasicInformation', fetchBasicInformation);
 
 /* Fetching all menu information */
 normalRouter.get('/fetchAllMenu', getFetchAllMenu);
