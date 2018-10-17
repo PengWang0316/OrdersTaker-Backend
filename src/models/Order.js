@@ -1,5 +1,5 @@
 const { ObjectID } = require('mongodb');
-const { promiseFindResult } = require('../MongoDBHelper');
+const { promiseFindResult, getDB } = require('../MongoDBHelper');
 
 const COLLECTION_ORDERS = 'orders';
 
@@ -15,3 +15,15 @@ exports.fetchLoginUserOrders = (offset, amount, userId) => promiseFindResult(db 
     { userId: new ObjectID(userId) },
     { skip: offset, limit: amount, sort: { dateStamp: -1 } },
   ));
+
+/**
+ * Fetching and returning the total amount of orders a user has.
+ * @param {string} userId is the id for the user
+ * @return {Promise} Return a promise.
+ */
+exports.fetchOrderAmount = userId => new Promise((resolve, reject) => getDB()
+  .collection(COLLECTION_ORDERS).countDocuments({ userId: new ObjectID(userId) })
+  .then((result, err) => {
+    if (err) reject(err);
+    else resolve(result.toString());
+  }));
