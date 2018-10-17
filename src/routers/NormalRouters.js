@@ -6,7 +6,7 @@ require('dotenv').config(); // Loading .env to process.env
 // Functions import
 const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
 const fetchBasicInformation = require('../controllers/FetchBasicInformation');
-const getFetchAllMenu = require('./functions/GetFetchAllMenu');
+const fetchAllMenu = require('../controllers/FetchAllMenu');
 const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
 const getFetchLoginUserOrders = require('./functions/GetFetchLoginUserOrders');
 const getFetchUnloginUserOrders = require('./functions/GetFetchUnloginUserOrders');
@@ -31,7 +31,7 @@ normalRouter.get('/jwtMessageVerify', getJwtMessageVerify);
 normalRouter.get('/fetchBasicInformation', fetchBasicInformation);
 
 /* Fetching all menu information */
-normalRouter.get('/fetchAllMenu', getFetchAllMenu);
+normalRouter.get('/fetchAllMenu', fetchAllMenu);
 
 /* Fetching total orders' amount */
 normalRouter.get('/fetchOrderAmount', getFetchOrderAmount);
