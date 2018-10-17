@@ -1,4 +1,4 @@
-import { promiseFindResult } from '../MongoDBHelper';
+const { promiseFindResult } = require('../MongoDBHelper');
 
 const COLLECTION_MENUS = 'Menus';
 
