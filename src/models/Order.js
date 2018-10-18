@@ -27,3 +27,10 @@ exports.fetchOrderAmount = userId => new Promise((resolve, reject) => getDB()
     if (err) reject(err);
     else resolve(result.toString());
   }));
+
+/**
+ * Fetching all unfinished orders
+ * @return {array} Return an array with all unfinished orders.
+ */
+exports.fetchUnfinishedOrders = () => promiseFindResult(db => db.collection(COLLECTION_ORDERS)
+  .find({ $or: [{ isFinished: { $exists: false } }, { isFinished: false }] }));
