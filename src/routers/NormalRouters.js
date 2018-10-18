@@ -7,10 +7,10 @@ require('dotenv').config(); // Loading .env to process.env
 const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
 const fetchBasicInformation = require('../controllers/FetchBasicInformation');
 const fetchAllMenu = require('../controllers/FetchAllMenu');
-const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
-const getFetchLoginUserOrders = require('./functions/GetFetchLoginUserOrders');
+const fetchOrderAmount = require('../controllers/FetchOrderAmount');
+const fetchLoginUserOrders = require('../controllers/FetchLoginUserOrders');
 const getFetchUnloginUserOrders = require('./functions/GetFetchUnloginUserOrders');
-const getFetchUnfinishedOrders = require('./functions/GetFetchUnfinishedOrders');
+const fetchUnfinishedOrders = require('../controllers/FetchUnfinishedOrders');
 
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
 
@@ -34,16 +34,16 @@ normalRouter.get('/fetchBasicInformation', fetchBasicInformation);
 normalRouter.get('/fetchAllMenu', fetchAllMenu);
 
 /* Fetching total orders' amount */
-normalRouter.get('/fetchOrderAmount', getFetchOrderAmount);
+normalRouter.get('/fetchOrderAmount', fetchOrderAmount);
 
 /* Fetching orders for a login user */
-normalRouter.get('/fetchOrders', getFetchLoginUserOrders);
+normalRouter.get('/fetchOrders', fetchLoginUserOrders);
 
 /* Fetching orders for a login user */
 normalRouter.get('/fetchUnloginOrders', getFetchUnloginUserOrders);
 
 /* Fetching unfinished orders */
-normalRouter.get('/fetchUnfinishedOrders', getFetchUnfinishedOrders);
+normalRouter.get('/fetchUnfinishedOrders', fetchUnfinishedOrders);
 
 /* Saving the placed order */
 normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
