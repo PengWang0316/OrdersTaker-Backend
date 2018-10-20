@@ -9,7 +9,7 @@ const fetchBasicInformation = require('../controllers/FetchBasicInformation');
 const fetchAllMenu = require('../controllers/FetchAllMenu');
 const fetchOrderAmount = require('../controllers/FetchOrderAmount');
 const fetchLoginUserOrders = require('../controllers/FetchLoginUserOrders');
-const getFetchUnloginUserOrders = require('./functions/GetFetchUnloginUserOrders');
+const fetchUnloginUserOrders = require('../controllers/FetchUnloginUserOrders');
 const fetchUnfinishedOrders = require('../controllers/FetchUnfinishedOrders');
 
 const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
@@ -40,7 +40,7 @@ normalRouter.get('/fetchOrderAmount', fetchOrderAmount);
 normalRouter.get('/fetchOrders', fetchLoginUserOrders);
 
 /* Fetching orders for a login user */
-normalRouter.get('/fetchUnloginOrders', getFetchUnloginUserOrders);
+normalRouter.get('/fetchUnloginOrders', fetchUnloginUserOrders);
 
 /* Fetching unfinished orders */
 normalRouter.get('/fetchUnfinishedOrders', fetchUnfinishedOrders);

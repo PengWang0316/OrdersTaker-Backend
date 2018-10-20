@@ -34,3 +34,14 @@ exports.fetchOrderAmount = userId => new Promise((resolve, reject) => getDB()
  */
 exports.fetchUnfinishedOrders = () => promiseFindResult(db => db.collection(COLLECTION_ORDERS)
   .find({ $or: [{ isFinished: { $exists: false } }, { isFinished: false }] }));
+
+/**
+ * Fetching and returning a order array based on the giving order ids.
+ * @param {array} orderIds is an array that contains all orders' ids
+ * @return {Promise} Return a promise.
+ */
+exports.fetchUnloginUserOrders = orderIds => {
+  const objectIds = orderIds.map(id => new ObjectID(id)); // Trunning the string array to an ObjectId array.
+  return promiseFindResult(db => db.collection(COLLECTION_ORDERS)
+    .find({ _id: { $in: objectIds } }, { sort: { dateStamp: -1 } }));
+};
