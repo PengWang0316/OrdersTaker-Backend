@@ -1,6 +1,6 @@
 const { ObjectID } = require('mongodb');
 
-const { getDB } = require('../MongoDBHelper');
+const { getDB, promiseFindResult } = require('../MongoDBHelper');
 
 const COLLECTION_USER = 'users';
 
@@ -20,4 +20,9 @@ exports.fetchOneUser = id => new Promise((reslove, reject) => getDB().collection
   }).then((result, err) => {
     if (err) reject(err);
     reslove(result);
+  }));
+
+exports.findUserWithUsername = username => promiseFindResult(db => db.collection(COLLECTION_USER)
+  .find({ username }, {
+    email: 0, facebookId: 0, googleId: 0,
   }));
