@@ -2,9 +2,9 @@ const usernamePasswordRouters = require('express').Router();
 
 const postRegisterNewUser = require('./functions/PostRegisterNewUser');
 const checkUsernameAvailable = require('../controllers/CheckUsernameAvailable');
-const getLoginWithPassword = require('./functions/GetLoginWithPassword');
+const loginWithPassword = require('../controllers/LoginWithPassword');
 
-usernamePasswordRouters.get('/loginWithPassword', getLoginWithPassword);
+usernamePasswordRouters.get('/loginWithPassword', loginWithPassword);
 
 usernamePasswordRouters.get('/checkUsernameAvailable', checkUsernameAvailable);
 
