@@ -3,8 +3,8 @@ const normalRouter = require('express').Router();
 
 require('dotenv').config(); // Loading .env to process.env
 
-// Functions import
-const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
+// Controllers import
+const jwtMessageVerify = require('../controllers/JwtMessageVerify');
 const fetchBasicInformation = require('../controllers/FetchBasicInformation');
 const fetchAllMenu = require('../controllers/FetchAllMenu');
 const fetchOrderAmount = require('../controllers/FetchOrderAmount');
@@ -25,7 +25,7 @@ const updateFinishedItems = require('./functions/UpdateFinishedItems');
 
 
 /* Checking jwt token */
-normalRouter.get('/jwtMessageVerify', getJwtMessageVerify);
+normalRouter.get('/jwtMessageVerify', jwtMessageVerify);
 
 /* Fetching the basic information */
 normalRouter.get('/fetchBasicInformation', fetchBasicInformation);
