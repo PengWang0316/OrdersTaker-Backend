@@ -26,3 +26,11 @@ exports.findUserWithUsername = username => promiseFindResult(db => db.collection
   .find({ username }, {
     email: 0, facebookId: 0, googleId: 0,
   }));
+
+exports.registerNewUser = user => new Promise((resolve, reject) => {
+  getDB().collection(COLLECTION_USER)
+    .insertOne(user, (err, response) => {
+      if (err) reject(err);
+      resolve(response.ops[0]);
+    });
+});
