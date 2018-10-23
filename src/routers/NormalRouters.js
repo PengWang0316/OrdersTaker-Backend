@@ -12,7 +12,7 @@ const fetchLoginUserOrders = require('../controllers/FetchLoginUserOrders');
 const fetchUnloginUserOrders = require('../controllers/FetchUnloginUserOrders');
 const fetchUnfinishedOrders = require('../controllers/FetchUnfinishedOrders');
 
-const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
+const savePlacedOrder = require('../controllers/SavePlacedOrder');
 
 const updateLinkOrderToAccount = require('./functions/UpdateLinkOrderToAccount');
 const updateFinishedItems = require('./functions/UpdateFinishedItems');
@@ -46,7 +46,7 @@ normalRouter.get('/fetchUnloginOrders', fetchUnloginUserOrders);
 normalRouter.get('/fetchUnfinishedOrders', fetchUnfinishedOrders);
 
 /* Saving the placed order */
-normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
+normalRouter.post('/savePlacedOrder', savePlacedOrder);
 
 /* Linking a unlogin order to a user account */
 normalRouter.put('/linkOrderToAccount', updateLinkOrderToAccount);
