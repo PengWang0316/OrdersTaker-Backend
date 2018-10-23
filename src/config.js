@@ -4,5 +4,5 @@ module.exports = {
   NORMAL_USER_ROLE: 3,
   SOCKETIO: 'socketio',
   SOCKETIO_EVENT_ADD_NEW_ORDER: 'socketioEventAddNewOrder',
-  SOCKETIO_EVENT_UPDATE_ORDER_ITEM: 'socketioEventUpdateOrderItem'
+  SOCKETIO_EVENT_UPDATE_ORDER_ITEM: 'socketioEventUpdateOrderItem',
 };
