@@ -45,3 +45,17 @@ exports.fetchUnloginUserOrders = orderIds => {
   return promiseFindResult(db => db.collection(COLLECTION_ORDERS)
     .find({ _id: { $in: objectIds } }, { sort: { dateStamp: -1 } }));
 };
+
+/**
+ * Saving a placed order and return a promise with the result.
+ * @param {object} order is the information will be saved to the database.
+ * @param {string} userId is the user's id.
+ * @return {Promise} Return a promise with the result's id.
+ */
+exports.savePlacedOrder = (order, userId) => new Promise((resolve, reject) => getDB().collection(COLLECTION_ORDERS)
+  .insertOne({
+    ...order, userId: userId ? new ObjectID(userId) : null, dateStamp: new Date(), status: 'Received',
+  }, (err, result) => {
+    if (err) reject(err);
+    resolve(result.ops[0]._id.toString());
+  }));
