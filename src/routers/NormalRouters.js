@@ -15,7 +15,7 @@ const fetchUnfinishedOrders = require('../controllers/FetchUnfinishedOrders');
 const savePlacedOrder = require('../controllers/SavePlacedOrder');
 
 const updateLinkOrderToAccount = require('./functions/UpdateLinkOrderToAccount');
-const updateFinishedItems = require('./functions/UpdateFinishedItems');
+const finishedItems = require('../controllers/FinishedItems');
 
 // cloudinary.config({ // confige the cloudinary library.
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -52,6 +52,6 @@ normalRouter.post('/savePlacedOrder', savePlacedOrder);
 normalRouter.put('/linkOrderToAccount', updateLinkOrderToAccount);
 
 /* Update the finished itmes list for the order */
-normalRouter.put('/updateFinishedItems', updateFinishedItems);
+normalRouter.put('/updateFinishedItems', finishedItems);
 
 module.exports = normalRouter;
