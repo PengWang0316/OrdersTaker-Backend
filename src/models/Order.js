@@ -43,7 +43,7 @@ exports.fetchUnfinishedOrders = () => promiseFindResult(db => db.collection(COLL
 exports.fetchUnloginUserOrders = orderIds => {
   const objectIds = orderIds.map(id => new ObjectID(id)); // Trunning the string array to an ObjectId array.
   return promiseFindResult(db => db.collection(COLLECTION_ORDERS)
-    .find({ _id: { $in: objectIds } }, { sort: { dateStamp: -1 } }));
+    .find({ $and: { _id: { $in: objectIds }, userId: null } }, { sort: { dateStamp: -1 } }));
 };
 
 /**
@@ -81,3 +81,13 @@ exports.updateFinishedItems = (
       resolve();
     });
 });
+
+/**
+ * Updating a order's userId.
+ * @param {string} orderId is the id of the order.
+ * @param {string} userId is the id of the user.
+ * @return {null} No return.
+ */
+exports.linkOrderToAccount = (orderId, userId) => getDB()
+  .collection(COLLECTION_ORDERS)
+  .updateOne({ _id: new ObjectID(orderId), userId: null }, { $set: { userId: ObjectID(userId) } });
