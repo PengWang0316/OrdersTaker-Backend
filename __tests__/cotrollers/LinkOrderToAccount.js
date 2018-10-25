@@ -1,19 +1,19 @@
-import UpdateLinkOrderToAccount from '../../src/routers/functions/UpdateLinkOrderToAccount';
+import linkOrderToAccountController from '../../src/controllers/LinkOrderToAccount';
 
 jest.mock('../../src/utils/JWTUtil', () => ({ verifyJWT: jest.fn().mockReturnValue({ _id: 'userId' }) }));
-jest.mock('../../src/MongoDB', () => ({ linkOrderToAccount: jest.fn() }));
+jest.mock('../../src/models/Order', () => ({ linkOrderToAccount: jest.fn() }));
 
-describe('UpdateLinkOrderToAccount', () => {
+describe('LinkOrderToAccount', () => {
   test('linkOrderToAccount', () => {
     const JWTUtil = require('../../src/utils/JWTUtil');
-    const MongoDB = require('../../src/MongoDB');
+    const { linkOrderToAccount } = require('../../src/models/Order');
     const req = { body: { orderId: 'orderId', jwt: 'jwt' } };
     const res = { end: jest.fn() };
-    UpdateLinkOrderToAccount(req, res);
+    linkOrderToAccountController(req, res);
     expect(JWTUtil.verifyJWT).toHaveBeenCalledTimes(1);
     expect(JWTUtil.verifyJWT).toHaveBeenLastCalledWith(req.body.jwt, res);
-    expect(MongoDB.linkOrderToAccount).toHaveBeenCalledTimes(1);
-    expect(MongoDB.linkOrderToAccount).toHaveBeenLastCalledWith(req.body.orderId, 'userId');
+    expect(linkOrderToAccount).toHaveBeenCalledTimes(1);
+    expect(linkOrderToAccount).toHaveBeenLastCalledWith(req.body.orderId, 'userId');
     expect(res.end).toHaveBeenCalledTimes(1);
   });
 });

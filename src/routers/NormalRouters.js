@@ -1,21 +1,21 @@
 const normalRouter = require('express').Router();
-const cloudinary = require('cloudinary');
+// const cloudinary = require('cloudinary');
 
 require('dotenv').config(); // Loading .env to process.env
 
-// Functions import
-const getJwtMessageVerify = require('./functions/GetJwtMessageVerify');
-const getFetchBasicInformation = require('./functions/GetFetchBasicInformation');
-const getFetchAllMenu = require('./functions/GetFetchAllMenu');
-const getFetchOrderAmount = require('./functions/GetFetchOrderAmount');
-const getFetchLoginUserOrders = require('./functions/GetFetchLoginUserOrders');
-const getFetchUnloginUserOrders = require('./functions/GetFetchUnloginUserOrders');
-const getFetchUnfinishedOrders = require('./functions/GetFetchUnfinishedOrders');
+// Controllers import
+const jwtMessageVerify = require('../controllers/JwtMessageVerify');
+const fetchBasicInformation = require('../controllers/FetchBasicInformation');
+const fetchAllMenu = require('../controllers/FetchAllMenu');
+const fetchOrderAmount = require('../controllers/FetchOrderAmount');
+const fetchLoginUserOrders = require('../controllers/FetchLoginUserOrders');
+const fetchUnloginUserOrders = require('../controllers/FetchUnloginUserOrders');
+const fetchUnfinishedOrders = require('../controllers/FetchUnfinishedOrders');
 
-const postSavePlacedOrder = require('./functions/PostSavePlacedOrder');
+const savePlacedOrder = require('../controllers/SavePlacedOrder');
 
-const updateLinkOrderToAccount = require('./functions/UpdateLinkOrderToAccount');
-const updateFinishedItems = require('./functions/UpdateFinishedItems');
+const linkOrderToAccount = require('../controllers/LinkOrderToAccount');
+const finishedItems = require('../controllers/FinishedItems');
 
 // cloudinary.config({ // confige the cloudinary library.
 //   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -25,33 +25,33 @@ const updateFinishedItems = require('./functions/UpdateFinishedItems');
 
 
 /* Checking jwt token */
-normalRouter.get('/jwtMessageVerify', getJwtMessageVerify);
+normalRouter.get('/jwtMessageVerify', jwtMessageVerify);
 
 /* Fetching the basic information */
-normalRouter.get('/fetchBasicInformation', getFetchBasicInformation);
+normalRouter.get('/fetchBasicInformation', fetchBasicInformation);
 
 /* Fetching all menu information */
-normalRouter.get('/fetchAllMenu', getFetchAllMenu);
+normalRouter.get('/fetchAllMenu', fetchAllMenu);
 
 /* Fetching total orders' amount */
-normalRouter.get('/fetchOrderAmount', getFetchOrderAmount);
+normalRouter.get('/fetchOrderAmount', fetchOrderAmount);
 
 /* Fetching orders for a login user */
-normalRouter.get('/fetchOrders', getFetchLoginUserOrders);
+normalRouter.get('/fetchOrders', fetchLoginUserOrders);
 
 /* Fetching orders for a login user */
-normalRouter.get('/fetchUnloginOrders', getFetchUnloginUserOrders);
+normalRouter.get('/fetchUnloginOrders', fetchUnloginUserOrders);
 
 /* Fetching unfinished orders */
-normalRouter.get('/fetchUnfinishedOrders', getFetchUnfinishedOrders);
+normalRouter.get('/fetchUnfinishedOrders', fetchUnfinishedOrders);
 
 /* Saving the placed order */
-normalRouter.post('/savePlacedOrder', postSavePlacedOrder);
+normalRouter.post('/savePlacedOrder', savePlacedOrder);
 
 /* Linking a unlogin order to a user account */
-normalRouter.put('/linkOrderToAccount', updateLinkOrderToAccount);
+normalRouter.put('/linkOrderToAccount', linkOrderToAccount);
 
 /* Update the finished itmes list for the order */
-normalRouter.put('/updateFinishedItems', updateFinishedItems);
+normalRouter.put('/updateFinishedItems', finishedItems);
 
 module.exports = normalRouter;
