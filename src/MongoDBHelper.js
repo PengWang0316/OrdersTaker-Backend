@@ -1,7 +1,7 @@
 const mongodb = require('mongodb');
 
 const { MongoClient } = mongodb;
-const winston = require('winston');
+const logger = require('./utils/Logger');
 
 require('dotenv').config();
 // Loading .env to process.env
@@ -13,29 +13,6 @@ const DB_URL = process.env.DB_HOST;
 
 const { DB_NAME } = process.env;
 let dbs;
-
-/** Setting up the Winston logger.
-  * Under the development mode log to console.
-*/
-const logger = winston.createLogger({
-  level: process.env.LOGGING_LEVEL,
-  transports: [
-    new (winston.transports.Console)(),
-  ],
-});
-
-/** Replaces the previous transports with those in the
-new configuration wholesale.
-  * When under the production mode, log to a file.
-*/
-if (process.env.NODE_ENV === 'production') {
-  logger.configure({
-    level: 'error',
-    transports: [
-      new (winston.transports.File)({ filename: 'error.log' }),
-    ],
-  });
-}
 
 // Initializing the connection pool.
 const ininitalConnects = async () => {
