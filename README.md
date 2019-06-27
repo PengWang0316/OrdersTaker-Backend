@@ -17,6 +17,9 @@ The back-end code for OrdersTaker.
   - App.js (the entry file)
   - MongoDB.js (all database related code)
 
+### Front end repository
+[Order Taker Front-end](https://github.com/PengWang0316/OrdersTaker)
+
 ### Test :tada: :tada:
 Test code is under the __tests__ folder
 Jest is using as the test framework
